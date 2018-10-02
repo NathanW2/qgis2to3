@@ -26,7 +26,7 @@ so there might be various false positives.
 """
 
 
-def line_matches_dict(line):
+def line_matches_dict(line, include_verbose_keys):
     global REGXPS
     if line.strip().startswith('#'):
         return False, None
@@ -40,13 +40,13 @@ def line_matches_dict(line):
     return False, None
 
 
-def check_file(file_path):
+def check_file(file_path, include_verbose_keys=None, summarize=True):
     global RESULTS, TOTAL
 
     match_counter = 0
     with open(file_path) as fp:
         for linenumber, line in enumerate(fp):
-            match, message = line_matches_dict(line)
+            match, message = line_matches_dict(line, include_verbose_keys)
             if match:
                 match_counter += 1
                 if not summarize:
@@ -64,7 +64,7 @@ def create_rgxps():
         REGXPS[k] = p
 
 
-def print_note():
+def print_note(hide_note):
     if hide_note:
         return
     print('\n')
@@ -72,7 +72,7 @@ def print_note():
     print(NOTE)
 
 
-def is_path_valid(arg):
+def is_path_valid(arg, parser):
     if not os.path.exists(arg):
         parser.error("The path %s does not exist!" % arg)
     else:
@@ -109,7 +109,7 @@ def main():
         help='Do not show the note about false positives')
     parser.add_argument(
         'path',
-        type=lambda arg: is_path_valid(arg),
+        type=lambda arg: is_path_valid(arg, parser),
         help='File or directory to be analysed')
 
     # enforce arguments check
@@ -123,16 +123,16 @@ def main():
 
     create_rgxps()
     if os.path.isfile(path):
-        check_file(path)
+        check_file(path, include_verbose_keys, summarize)
     else:
         for subdir, dirs, files in os.walk(path):
             for file in files:
                 if file.endswith('.py'):
                     file_path = os.path.join(subdir, file)
-                    check_file(file_path)
+                    check_file(file_path, include_verbose_keys, summarize)
 
     print_results()
-    print_note()
+    print_note(hide_note)
 
 
 
