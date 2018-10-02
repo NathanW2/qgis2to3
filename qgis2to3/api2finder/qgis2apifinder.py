@@ -88,7 +88,7 @@ def print_results():
         print('{} -> {} usages found'.format(f, c))
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description='Find usages of the QGIS api version 2 and propose '
                     'changes for api version 3')
@@ -102,7 +102,7 @@ if __name__ == "__main__":
         '-a', '--all',
         action="store_true",
         help='Include very frequent words like {} in the '
-        'analysis'.format(VERBOSE_KEYS))
+             'analysis'.format(VERBOSE_KEYS))
     parser.add_argument(
         '-n', '--nonote',
         action="store_true",
@@ -133,3 +133,8 @@ if __name__ == "__main__":
 
     print_results()
     print_note()
+
+
+
+if __name__ == "__main__":
+    main()

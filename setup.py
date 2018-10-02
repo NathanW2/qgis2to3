@@ -4,10 +4,12 @@ setup(
     version='[VERSION]',
     name='qgis2to3',
     packages=find_packages(exclude=['tests*']),
-    scripts=[
-        'qgis2to3/api2finder/qgis2apifinder',
-        'qgis2to3/codeporting/qgis2to3'
-        ],
+    entry_points={
+        'console_scripts': [
+            'qgis2apifinder = qgis2to3.api2finder.qgis2apifinder:main',
+            'qgis2to3 = qgis2to3.codeporting.qgis2to3:main'
+        ]
+    },
     url='https://github.com/opengisch/qgis2to3',
     download_url='https://github.com/opengisch/qgis2to3/archive/[VERSION].tar.gz',
     license='GPLv3',
