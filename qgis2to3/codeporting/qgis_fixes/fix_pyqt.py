@@ -8,6 +8,7 @@ from lib2to3.fixes.fix_imports import alternates, FixImports
 from lib2to3 import fixer_base
 from lib2to3.fixer_util import (Name, Comma, FromImport, Newline,
                                 find_indentation, Node, syms, Leaf)
+import tempfile
 
 MAPPING = {
     "PyQt4.QtGui": [
@@ -516,7 +517,7 @@ class FixPyqt(FixImports):
                                 mod_dict.setdefault(change[0], []).append(member)
                             found = True
                     if not found:
-                        f = open("/tmp/missing", "a+")
+                        f = open(f"{tempfile.gettempdir()}/missing", "a+")
                         f.write("member %s of %s not found\n" % (member_name, mod_member.value))
                         f.close()
                         missing = True
