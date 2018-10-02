@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-python3 ${DIR}/../qgis2apifinder -na ${DIR}/test_file.txt > test_result.txt
+python3 ${DIR}/../qgis2apifinder.py -na ${DIR}/test_file.txt > test_result.txt
 
 
 function match_text {
